@@ -7,14 +7,14 @@
   <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Dashboard</a>
+        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Maschinen</a>
       </li>
       
       <li class="nav-item">
-        <a class="nav-link" href="#">Messungen</a>
+        <a class="nav-link" routerLink="/measurement">Messungen</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -28,9 +28,10 @@
 </div>
 -->
 
-<!--<h2>{{ averageTemperatureOverTime(events) }}</h2>-->
-
-
 <!--<div *ngFor="let event of measurementsExceedingValue(events, 90)">
   <h2>{{ event.machine_name }}</h2>
 </div> -->
+
+
+<router-outlet></router-outlet>
+

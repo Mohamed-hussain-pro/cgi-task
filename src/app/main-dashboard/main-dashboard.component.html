@@ -1,0 +1,31 @@
+
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <app-dashboard-card
+        title="Average Temperature Over Time"
+        value="{{averageTemperatureOverTime(events) | number }}"
+        icon="attach_money"
+      ></app-dashboard-card>
+      </div>
+      <div class="col-sm">
+        <app-card>
+          <h3>All Events</h3>
+          <div *ngFor="let event of events">
+            <h2>{{ event.machine_name }}</h2>
+            <p>{{event.temperature}}</p>
+          </div>
+        </app-card>
+      </div>
+      <div class="col-sm">
+        <app-card>
+          <h3>measurements Exceeding 90</h3>
+          <div *ngFor="let event of measurementsExceedingValue(events, 90)">
+            <h2>{{ event.machine_name }}</h2>
+            <p>{{event.temperature}}</p>
+          </div>
+        </app-card>
+      </div>
+    </div>
+  </div>
+  
