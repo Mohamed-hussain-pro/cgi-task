@@ -5,6 +5,7 @@ import { MeasurementComponent } from './measurement/measurement.component';
 
 const routes: Routes = [
   
+  
   { path: 'dashboard', component: MainDashboardComponent },
 
   { path: 'measurement', component: MeasurementComponent }

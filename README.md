@@ -54,3 +54,7 @@ Sketches for the layout of the dashboard. You are also welcome to deviate from t
 We ask you to use JavaScript as the programming language, the choice of framework is up to you
 leave.
 Good luck!
+
+
+The average temperature of all machines over time ???
+

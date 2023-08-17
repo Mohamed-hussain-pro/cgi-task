@@ -14,6 +14,8 @@ import { MeasurementComponent } from './measurement/measurement.component';
 import { RouterModule } from '@angular/router';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 import {MatTableModule} from '@angular/material/table';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import {MatTableModule} from '@angular/material/table';
     DashboardCardComponent,
     CardComponent,
     MeasurementComponent,
-    MainDashboardComponent
+    MainDashboardComponent,
+    BarChartComponent,
+    LineChartComponent
   ],
   imports: [
     BrowserModule,
