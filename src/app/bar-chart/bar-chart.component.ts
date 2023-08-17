@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto';
 import { map, Observable, tap } from 'rxjs';
 import { DataService } from '../data.service';
 import { HttpServiceService } from '../http-service.service';
+import { EventData } from '../model/event-data';
 
 @Component({
   selector: 'app-bar-chart',
@@ -16,7 +17,7 @@ export class BarChartComponent implements OnInit {
   public data: EventData[] = [];
 
   public months: string[] = [];
-  public years: string[]  = [];
+  public years: string[] = [];
 
   public machines: string[] = [];
   public values = ['88', '45', '22', '55', '11'];
@@ -28,7 +29,7 @@ export class BarChartComponent implements OnInit {
   selectedYear: string = '2020';
   selectedName: string = 'machine-1';
 
-  constructor(private httpServiceService: HttpServiceService, private dataService: DataService) {}
+  constructor(private httpServiceService: HttpServiceService, private dataService: DataService) { }
 
   ngOnInit(): void {
     this.httpServiceService.getEvents().subscribe((data) => {
@@ -45,75 +46,63 @@ export class BarChartComponent implements OnInit {
     }
   };
 
-  /**
-   * Average Temperature of All Machines Over Time
-   * This function calculates the average temperature of all machines over time.
-   */
-     getAllNames(data: EventData[]): string[] {
-      const machineNames = data.map((row: { machine_name: string; }) => row.machine_name);
-      return [...new Set(machineNames)];
-    }
+  getAllNames(data: EventData[]): string[] {
+    const machineNames = data.map((row: { machine_name: string; }) => row.machine_name);
+    return [...new Set(machineNames)];
+  }
 
-  /**
-   * Average Temperature of All Machines Over Time
-   * This function calculates the average temperature of all machines over time.
-   */
-     getAllMonths(data: EventData[]): any[] {
-      let dates = data.map((row: { timestamp: string; }) => row.timestamp);
-      let uniqueDates = [...new Set(dates)];
-      
-      // Extract months and years
-      const monthsArray = uniqueDates.map(date => {
-        const [month] = date.split('/');
-        return parseInt(month, 10);
-      });
-      
-      // Convert to Set to get unique values
-      const uniqueMonths = [...new Set(monthsArray)];
+  getAllMonths(data: EventData[]): any[] {
+    let dates = data.map((row: { timestamp: string; }) => row.timestamp);
+    let uniqueDates = [...new Set(dates)];
 
-      // Map month numbers to month names
-      const monthNames = [
-        'January', 'February', 'March', 'April', 'May', 'June',
-        'July', 'August', 'September', 'October', 'November', 'December'
-      ];
-      // Convert month numbers to month names
-      const uniqueMonthNames = uniqueMonths.map(monthNumber => monthNames[monthNumber - 1]);
-      
-      return uniqueMonthNames;
-    }
+    // Extract months and years
+    const monthsArray = uniqueDates.map(date => {
+      const [month] = date.split('/');
+      return parseInt(month, 10);
+    });
 
-    /**
-   * Average Temperature of All Machines Over Time
-   * This function calculates the average temperature of all machines over time.
-   */
-     getAllYears(data: EventData[]): any[] {
-      let dates = data.map((row: { timestamp: string; }) => row.timestamp);
-      let uniqueDates = [...new Set(dates)];
-      
-      // Extract months and years
-      const yearsArray = uniqueDates.map(date => {
-        const [, year] = date.split('/');
-        return parseInt(year, 10);
-      });
-      
-      // Convert to Set to get unique values
-      const uniqueYears = [...new Set(yearsArray)];
-            
-      // Convert year values to human-readable format
-      const uniqueYearsFormatted = uniqueYears.map(year => `20${year}`);      
+    // Convert to Set to get unique values
+    const uniqueMonths = [...new Set(monthsArray)];
 
-      return  uniqueYearsFormatted;
-    }
+    // Map month numbers to month names
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    // Convert month numbers to month names
+    const uniqueMonthNames = uniqueMonths.map(monthNumber => monthNames[monthNumber - 1]);
+
+    return uniqueMonthNames;
+  }
+
+  getAllYears(data: EventData[]): any[] {
+    let dates = data.map((row: { timestamp: string; }) => row.timestamp);
+    let uniqueDates = [...new Set(dates)];
+
+    // Extract years and years
+    const yearsArray = uniqueDates.map(date => {
+      const [, year] = date.split('/');
+      return parseInt(year, 10);
+    });
+
+    // Convert to Set to get unique values
+    const uniqueYears = [...new Set(yearsArray)];
+
+    // Convert year values to human-readable format
+    const uniqueYearsFormatted = uniqueYears.map(year => `20${year}`);
+
+    return uniqueYearsFormatted;
+  }
 
 
-  createChart(data:any){
+  createChart(data: any) {
 
     this.chart = new Chart("MyChart", {
       type: 'bar', //this denotes tha type of chart
 
       data: {// values on X-Axis
         labels: data.map((row: { timestamp: any; }) => row.timestamp),
-	       datasets: [
+        datasets: [
           {
             label: "Temperatures",
             data: data.map((row: { temperature: any; }) => row.temperature),
@@ -122,7 +111,7 @@ export class BarChartComponent implements OnInit {
         ]
       },
       options: {
-        aspectRatio:2.5,
+        aspectRatio: 2.5,
         scales: {
           y: {
             beginAtZero: true,
@@ -131,151 +120,62 @@ export class BarChartComponent implements OnInit {
               // forces step size to be 50 units
               stepSize: 25
             }
-            
+
           },
-         
+
         }
       }
-      
+
     });
   }
-/**
-  onSelectOptionName(event: any, data: any[]) {
-    this.selectedOption = event.target.value;
-    // Additional actions based on the selected option can be performed here
-  
-    if (data) {
 
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      this.httpServiceService.getEvents().subscribe((data) => {
-        this.data = data.filter((event: { machine_name: any; }) => event.machine_name === this.selectedOption);
-        this.createChart(this.data);
-
-      });
-    } else {
-      console.log("Data is not yet available.");
-    }
-  }
-
-  onSelectOptionYear(event: any, data: any[]) {
-    this.selectedOption = event.target.value;
-    // Additional actions based on the selected option can be performed here
-  
-    if (data) {
-
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      this.httpServiceService.getEvents().subscribe((data) => {
-        this.data = data.filter((event: { machine_name: any; }) => event.machine_name === this.selectedOption);
-        this.createChart(this.data);
-
-      });
-    } else {
-      console.log("Data is not yet available.");
-    }
-  }
-
-
-  onSelectOptionMonth(event: any, data: any[]) {
-    this.selectedOption = event.target.value;
-    // Additional actions based on the selected option can be performed here
-  
-    if (data) {
-
-      if (this.chart) {
-        this.chart.destroy();
-      }
-
-      this.httpServiceService.getEvents().subscribe((data) => {
-        this.data = data.filter((event: { timestamp: any; }) => event.timestamp.getMonth() === this.selectedOption);
-        this.createChart(this.data);
-
-      });
-    } else {
-      console.log("Data is not yet available.");
-    }
-  }
-*/
-
-  onSelectOptionMonth(event: any, data: EventData[]) {
+  onSelectOptionMonth(event: any) {
     this.selectedMonth = event.target.value;
-    console.log(data);
-    this.handleSelectionChange(data);
+    this.handleSelectionChange();
   }
 
-  onSelectOptionYear(event: any, data: EventData[]) {
+  onSelectOptionYear(event: any) {
     this.selectedYear = event.target.value;
-    this.handleSelectionChange(data);
+    this.handleSelectionChange();
   }
 
-  onSelectOptionName(event: any, data: EventData[]) {
+  onSelectOptionName(event: any) {
     this.selectedName = event.target.value;
-    this.handleSelectionChange(data);
+    this.handleSelectionChange();
   }
 
-  handleSelectionChange(data: EventData[]) {
-
-    this.filterEventsByDateAndMachine(this.selectedMonth, this.selectedYear, this.selectedName).subscribe(
-      (filteredData) => {
-        console.log('Filtered Data:', filteredData);
-        // Do something with the filtered data
-      },
-      (error) => {
-        console.error('Error:', error);
-      }
-    );
-
-
-    // You can perform additional actions based on the selected values
+  handleSelectionChange() {
+    this.filterEventsByDateAndMachine(this.selectedMonth, this.selectedYear, this.selectedName).subscribe();
   }
 
-   getMonthFromString(month: string){
-    return new Date(Date.parse(month +" 1, 2012")).getMonth()+1
- }
+  getMonthFromString(month: string) {
+    return new Date(Date.parse(month + " 1, 2012")).getMonth() + 1
+  }
   filterEventsByDateAndMachine(
     month: string,
     year: string,
     machineName: string
-): Observable<EventData[]> {  // Return type changed to Observable
+  ): Observable<EventData[]> {  // Return type changed to Observable
 
     if (this.chart) {
-        this.chart.destroy();
+      this.chart.destroy();
     }
 
     return this.httpServiceService.getEvents().pipe(  // Using pipe to return an Observable
-        map((data: EventData[]) => {
-            return data.filter((event: EventData) => {
-                const [eventMonth ,eventDay, eventYear] = event.timestamp.split('/').map(Number);
+      map((data: EventData[]) => {
+        return data.filter((event: EventData) => {
+          const [eventMonth, eventDay, eventYear] = event.timestamp.split('/').map(Number);
 
-                return (
-                    eventMonth === this.getMonthFromString(month) &&
-                    eventYear === parseInt(year, 10) &&
-                    event.machine_name === machineName
-                );
-            });
-        }),
-        tap(filteredData => {
-            this.createChart(filteredData);
-        })
+          return (
+            eventMonth === this.getMonthFromString(month) &&
+            eventYear === parseInt(year, 10) &&
+            event.machine_name === machineName
+          );
+        });
+      }),
+      tap(filteredData => {
+        this.createChart(filteredData);
+      })
     );
-}
-
-  
-}
-
-
-
-interface EventData {
-  event_id: {
-    $oid: string;
-  };
-  timestamp: string;
-  machine_id: string;
-  machine_name: string;
-  temperature: number;
+  }
 }
