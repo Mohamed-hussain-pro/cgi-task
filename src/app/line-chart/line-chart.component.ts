@@ -25,7 +25,7 @@ export class LineChartComponent implements OnInit {
   public selectedOption: any; // To store the selected option
 
 
-  selectedMonth: string = 'August';
+  selectedMonth: string = 'January';
   selectedYear: string = '2020';
 
   constructor(private httpServiceService: HttpServiceService, private dataService: DataService) { }
@@ -50,7 +50,7 @@ export class LineChartComponent implements OnInit {
 
     // Extract months and years
     const monthsArray = uniqueDates.map(date => {
-      const [month] = date.split('/');
+      const [month, day, year] = date.split('/');
       return parseInt(month, 10);
     });
 
@@ -72,9 +72,9 @@ export class LineChartComponent implements OnInit {
     let dates = data.map((row: { timestamp: string; }) => row.timestamp);
     let uniqueDates = [...new Set(dates)];
 
-    // Extract years and years
+    // Extract years
     const yearsArray = uniqueDates.map(date => {
-      const [, year] = date.split('/');
+      const [month, day, year] = date.split('/');
       return parseInt(year, 10);
     });
 
@@ -82,9 +82,9 @@ export class LineChartComponent implements OnInit {
     const uniqueYears = [...new Set(yearsArray)];
 
     // Convert year values to human-readable format
-    const uniqueYearsFormatted = uniqueYears.map(year => `20${year}`);
+    //const uniqueYearsFormatted = uniqueYears.map(year => `20${year}`);
 
-    return uniqueYearsFormatted;
+    return uniqueYears;
   }
 
 
