@@ -9,7 +9,7 @@ import { EventData } from '../../model/event-data';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnInit, OnDestroy{
+export class BarChartComponent implements OnInit, OnDestroy {
 
   public chart: any;
 
@@ -115,7 +115,7 @@ export class BarChartComponent implements OnInit, OnDestroy{
             beginAtZero: true,
             max: 100,
             ticks: {
-              // forces step size to be 50 units
+              // forces step size to be 25 units
               stepSize: 25
             }
 

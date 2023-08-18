@@ -10,7 +10,7 @@ import { EventData } from '../../model/event-data';
   styleUrls: ['./line-chart.component.scss']
 })
 
-export class LineChartComponent implements OnInit, OnDestroy{
+export class LineChartComponent implements OnInit, OnDestroy {
 
   public chart: any;
 
@@ -112,7 +112,7 @@ export class LineChartComponent implements OnInit, OnDestroy{
             beginAtZero: true,
             max: 100,
             ticks: {
-              // forces step size to be 50 units
+              // forces step size to be 25 units
               stepSize: 25
             }
 
@@ -172,25 +172,25 @@ export class LineChartComponent implements OnInit, OnDestroy{
   calculateAverageTemperatureOverTime(data: EventData[]): { [timestamp: string]: number } {
     const averageTemperatures: { [timestamp: string]: number } = {};
     const temperatureSumByTimestamp: { [timestamp: string]: { sum: number; count: number } } = {};
-  
+
     data.forEach((event) => {
       const timestamp = event.timestamp;
-  
+
       if (!temperatureSumByTimestamp[timestamp]) {
         temperatureSumByTimestamp[timestamp] = { sum: 0, count: 0 };
       }
-  
+
       temperatureSumByTimestamp[timestamp].sum += event.temperature;
       temperatureSumByTimestamp[timestamp].count += 1;
     });
-  
+
     for (const timestamp in temperatureSumByTimestamp) {
       const averageTemperature =
         temperatureSumByTimestamp[timestamp].sum / temperatureSumByTimestamp[timestamp].count;
       averageTemperatures[timestamp] = averageTemperature;
     }
-  
+
     return averageTemperatures;
   }
-  
+
 }
