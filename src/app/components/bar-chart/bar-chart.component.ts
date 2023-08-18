@@ -9,7 +9,7 @@ import { EventData } from '../../model/event-data';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.scss']
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent implements OnInit, OnDestroy{
 
   public chart: any;
 

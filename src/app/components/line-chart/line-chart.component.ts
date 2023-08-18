@@ -10,7 +10,7 @@ import { EventData } from '../../model/event-data';
   styleUrls: ['./line-chart.component.scss']
 })
 
-export class LineChartComponent implements OnInit {
+export class LineChartComponent implements OnInit, OnDestroy{
 
   public chart: any;
 
