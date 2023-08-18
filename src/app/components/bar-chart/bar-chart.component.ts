@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { map, Observable, tap } from 'rxjs';
 import { HttpServiceService } from '../../services/http-service/http-service.service';
+import { DataService } from '../../services/data-service/data.service';
+
+DataService
 import { EventData } from '../../model/event-data';
 
 @Component({
@@ -16,6 +19,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
   public data: EventData[] = [];
 
   public months: string[] = [];
+
   public years: string[] = [];
 
   public machines: string[] = [];
@@ -27,14 +31,14 @@ export class BarChartComponent implements OnInit, OnDestroy {
   selectedYear: string = '2020';
   selectedName: string = 'machine-1';
 
-  constructor(private httpServiceService: HttpServiceService) { }
+  constructor(private httpServiceService: HttpServiceService, private dataService: DataService) { }
 
   ngOnInit(): void {
     this.httpServiceService.getEvents().subscribe((data) => {
       this.createChart(data);
-      this.machines = this.getAllNames(data);
-      this.months = this.getAllMonths(data);
-      this.years = this.getAllYears(data);
+      this.machines = this.dataService.getAllNames(data);
+      this.months = this.dataService.getAllMonths(data);
+      this.years = this.dataService.getAllYears(data);
     });
   };
 
@@ -43,55 +47,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
       this.chart.destroy(); // Clean up the chart when component is destroyed
     }
   };
-
-  getAllNames(data: EventData[]): string[] {
-    const machineNames = data.map((row: { machine_name: string; }) => row.machine_name);
-    return [...new Set(machineNames)];
-  }
-
-  getAllMonths(data: EventData[]): any[] {
-    let dates = data.map((row: { timestamp: string; }) => row.timestamp);
-    let uniqueDates = [...new Set(dates)];
-
-    // Extract months and years
-    const monthsArray = uniqueDates.map(date => {
-      const [month, day, year] = date.split('/');
-      return parseInt(month, 10);
-    });
-
-    // Convert to Set to get unique values
-    const uniqueMonths = [...new Set(monthsArray)];
-
-    // Map month numbers to month names
-    const monthNames = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    // Convert month numbers to month names
-    const uniqueMonthNames = uniqueMonths.map(monthNumber => monthNames[monthNumber - 1]);
-
-    return uniqueMonthNames;
-  }
-
-  getAllYears(data: EventData[]): any[] {
-    let dates = data.map((row: { timestamp: string; }) => row.timestamp);
-    let uniqueDates = [...new Set(dates)];
-
-    // Extract years
-    const yearsArray = uniqueDates.map(date => {
-      const [month, day, year] = date.split('/');
-      return parseInt(year, 10);
-    });
-
-    // Convert to Set to get unique values
-    const uniqueYears = [...new Set(yearsArray)];
-
-    // Convert year values to human-readable format
-    //const uniqueYearsFormatted = uniqueYears.map(year => `20${year}`);
-
-    return uniqueYears;
-  }
-
 
   createChart(data: any) {
 
@@ -146,9 +101,6 @@ export class BarChartComponent implements OnInit, OnDestroy {
     this.filterEventsByDateAndMachine(this.selectedMonth, this.selectedYear, this.selectedName).subscribe();
   }
 
-  getMonthFromString(month: string) {
-    return new Date(Date.parse(month + " 1, 2012")).getMonth() + 1
-  }
   filterEventsByDateAndMachine(
     month: string,
     year: string,
@@ -165,7 +117,7 @@ export class BarChartComponent implements OnInit, OnDestroy {
           const [eventMonth, eventDay, eventYear] = event.timestamp.split('/').map(Number);
 
           return (
-            eventMonth === this.getMonthFromString(month) &&
+            eventMonth === this.dataService.getMonthFromString(month) &&
             eventYear === parseInt(year, 10) &&
             event.machine_name === machineName
           );
