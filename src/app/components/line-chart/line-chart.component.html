@@ -5,15 +5,15 @@
     </div>
 
     <div class="row">
-        <div class="col">
-            <select (change)="onSelectOptionMonth($event)" class="form-select" aria-label="Default select example">
+        <div class="col-md-6">
+            <select (change)="onSelectOptionMonth($event)" class="form-select mt-2 mt-md-3" aria-label="Default select example">
                 <option selected>Month</option>
 
                 <option *ngFor="let month of months" value="{{month}}">{{ month }}</option>
             </select>
         </div>
-        <div class="col">
-            <select (change)="onSelectOptionYear($event)" class="form-select" aria-label="Default select example">
+        <div class="col-md-6">
+            <select (change)="onSelectOptionYear($event)" class="form-select mt-2 mt-md-3" aria-label="Default select example">
                 <option selected>Year</option>
 
                 <option *ngFor="let year of years" value="{{year}}">{{ year }}</option>

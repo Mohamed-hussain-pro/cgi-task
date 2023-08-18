@@ -5,22 +5,22 @@
     </div>
 
     <div class="row">
-        <div class="col">
+        <div class="col-md-4">
             <select (change)="onSelectOptionMonth($event)" class="form-select" aria-label="Default select example">
                 <option selected>month</option>
 
                 <option *ngFor="let month of months" value="{{month}}">{{ month }}</option>
             </select>
         </div>
-        <div class="col">
-            <select (change)="onSelectOptionYear($event)" class="form-select" aria-label="Default select example">
+        <div class="col-md-4">
+            <select (change)="onSelectOptionYear($event)" class="form-select mt-2 mt-md-0" aria-label="Default select example">
                 <option selected>year</option>
 
                 <option *ngFor="let year of years" value="{{year}}">{{ year }}</option>
             </select>
         </div>
-        <div class="col">
-            <select (change)="onSelectOptionName($event)" class="form-select" aria-label="Default select example">
+        <div class="col-md-4">
+            <select (change)="onSelectOptionName($event)" class="form-select mt-2 mt-md-0" aria-label="Default select example">
                 <option selected>Machine Name</option>
 
                 <option *ngFor="let name of machines" value="{{name}}">{{ name }}</option>
