@@ -1,19 +1,17 @@
-
 <nav class="navbar navbar-expand-lg navbar-light border border-dark p-3">
-  <a class="navbar-brand" href="#">CGI</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand" routerLink="/dashboard">CGI</a>
+  <button class="navbar-toggler" type="button" (click)="toggleCollapse()">
     <span class="navbar-toggler-icon"></span>
   </button>
-
-  <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+  
+  <div [ngClass]="{ 'collapse': isCollapsed, 'navbar-collapse': true }" class="justify-content-between" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" routerLink="/dashboard">Dashboard</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/machines">Maschinen</a>
+        <a class="nav-link" routerLink="/machines">Maschinen</a>
       </li>
-      
       <li class="nav-item">
         <a class="nav-link" routerLink="/measurement">Messungen</a>
       </li>
@@ -23,6 +21,7 @@
     </form>
   </div>
 </nav>
+
 
 <!--<div *ngFor="let event of events">
   <h2>{{ event.machine_name }}</h2>

@@ -2,3 +2,13 @@ table {
     width: 100%;
   }
   
+  .table-container {
+    overflow-y: auto; /* Add vertical scrolling to the container */
+  }
+  
+  th {
+    position: sticky; /* Make the header cells sticky */
+    top: 0; /* Position the header cells at the top of the container */
+    background-color: #f8f9fa; /* Apply a background color to distinguish headers */
+    z-index: 1; /* Ensure the headers appear above the table body */
+  }

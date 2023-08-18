@@ -16,6 +16,7 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
 import {MatTableModule} from '@angular/material/table';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse'; // Import CollapseModule
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LineChartComponent } from './line-chart/line-chart.component';
     BrowserAnimationsModule,
     MatIconModule,
     RouterModule,
-    MatTableModule
+    MatTableModule,
+    CollapseModule
   ],
   providers: [],
   bootstrap: [AppComponent]
