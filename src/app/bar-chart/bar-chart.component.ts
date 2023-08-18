@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { map, Observable, tap } from 'rxjs';
-import { DataService } from '../data.service';
 import { HttpServiceService } from '../http-service.service';
 import { EventData } from '../model/event-data';
 
@@ -28,7 +27,7 @@ export class BarChartComponent implements OnInit {
   selectedYear: string = '2020';
   selectedName: string = 'machine-1';
 
-  constructor(private httpServiceService: HttpServiceService, private dataService: DataService) { }
+  constructor(private httpServiceService: HttpServiceService) { }
 
   ngOnInit(): void {
     this.httpServiceService.getEvents().subscribe((data) => {
