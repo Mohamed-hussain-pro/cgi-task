@@ -9,7 +9,7 @@ import { HttpServiceService } from '../http-service.service';
 })
 export class MeasurementComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'weight'];
+  displayedColumns: string[] = ['name', 'date', 'weight'];
   dataSource = [];
   events: any[] = [];
 
