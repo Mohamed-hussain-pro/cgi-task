@@ -1,39 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light border border-dark p-3">
-  <a class="navbar-brand" routerLink="/dashboard">CGI</a>
-  <button class="navbar-toggler" type="button" (click)="toggleCollapse()">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  
-  <div [ngClass]="{ 'collapse': isCollapsed, 'navbar-collapse': true }" class="justify-content-between" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/machines">Maschinen</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/measurement">Messungen</a>
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <button class="btn border border-dark my-2 my-sm-0" type="submit">Logout</button>
-    </form>
-  </div>
-</nav>
+<app-navbar></app-navbar>
 
-
-<!--<div *ngFor="let event of events">
-  <h2>{{ event.machine_name }}</h2>
-</div>
--->
-
-<!--<div *ngFor="let event of measurementsExceedingValue(events, 90)">
-  <h2>{{ event.machine_name }}</h2>
-</div> -->
-
-
-
-  <router-outlet></router-outlet>
+<router-outlet></router-outlet>
 
 

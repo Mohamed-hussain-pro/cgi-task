@@ -6,16 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'CGI';
-  isCollapsed = true; // Initial state of the collapse
+
 
   constructor() { }
 
 
   ngOnInit(): void {
-  }
-
-  toggleCollapse() {
-    this.isCollapsed = !this.isCollapsed; // Toggle the collapse state
   }
 }

@@ -8,19 +8,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { MeasurementComponent } from './measurement/measurement.component';
+import { MeasurementComponent } from './components/measurement/measurement.component';
 import { RouterModule } from '@angular/router';
 import {MatTableModule} from '@angular/material/table';
-import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { LineChartComponent } from './line-chart/line-chart.component';
-import { CollapseModule } from 'ngx-bootstrap/collapse'; // Import CollapseModule
+import { BarChartComponent } from './components/bar-chart/bar-chart.component';
+import { LineChartComponent } from './components/line-chart/line-chart.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { NavbarComponent } from './components/navbar/navbar.component'; // Import CollapseModule
 
 @NgModule({
   declarations: [
     AppComponent,
     MeasurementComponent,
     BarChartComponent,
-    LineChartComponent
+    LineChartComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

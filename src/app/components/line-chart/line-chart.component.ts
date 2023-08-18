@@ -1,15 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { map, Observable, tap } from 'rxjs';
-import { HttpServiceService } from '../http-service.service';
-import { EventData } from '../model/event-data';
+import { HttpServiceService } from '../../services/http-service/http-service.service';
+import { EventData } from '../../model/event-data';
 
 @Component({
-  selector: 'app-bar-chart',
-  templateUrl: './bar-chart.component.html',
-  styleUrls: ['./bar-chart.component.scss']
+  selector: 'app-line-chart',
+  templateUrl: './line-chart.component.html',
+  styleUrls: ['./line-chart.component.scss']
 })
-export class BarChartComponent implements OnInit {
+
+export class LineChartComponent implements OnInit {
 
   public chart: any;
 
@@ -25,14 +26,12 @@ export class BarChartComponent implements OnInit {
 
   selectedMonth: string = 'January';
   selectedYear: string = '2020';
-  selectedName: string = 'machine-1';
 
   constructor(private httpServiceService: HttpServiceService) { }
 
   ngOnInit(): void {
     this.httpServiceService.getEvents().subscribe((data) => {
       this.createChart(data);
-      this.machines = this.getAllNames(data);
       this.months = this.getAllMonths(data);
       this.years = this.getAllYears(data);
     });
@@ -43,11 +42,6 @@ export class BarChartComponent implements OnInit {
       this.chart.destroy(); // Clean up the chart when component is destroyed
     }
   };
-
-  getAllNames(data: EventData[]): string[] {
-    const machineNames = data.map((row: { machine_name: string; }) => row.machine_name);
-    return [...new Set(machineNames)];
-  }
 
   getAllMonths(data: EventData[]): any[] {
     let dates = data.map((row: { timestamp: string; }) => row.timestamp);
@@ -95,15 +89,18 @@ export class BarChartComponent implements OnInit {
 
   createChart(data: any) {
 
+    const chartLabels = Object.keys(data);
+    const chartData = Object.values(data);
+
     this.chart = new Chart("MyChart", {
-      type: 'bar', //this denotes tha type of chart
+      type: 'line', //this denotes tha type of chart
 
       data: {// values on X-Axis
-        labels: data.map((row: { timestamp: any; }) => row.timestamp),
+        labels: chartLabels,
         datasets: [
           {
             label: "Temperatures",
-            data: data.map((row: { temperature: any; }) => row.temperature),
+            data: chartData,
             backgroundColor: 'blue'
           },
         ]
@@ -137,13 +134,8 @@ export class BarChartComponent implements OnInit {
     this.handleSelectionChange();
   }
 
-  onSelectOptionName(event: any) {
-    this.selectedName = event.target.value;
-    this.handleSelectionChange();
-  }
-
   handleSelectionChange() {
-    this.filterEventsByDateAndMachine(this.selectedMonth, this.selectedYear, this.selectedName).subscribe();
+    this.filterEventsByDateAndMachine(this.selectedMonth, this.selectedYear).subscribe();
   }
 
   getMonthFromString(month: string) {
@@ -151,8 +143,7 @@ export class BarChartComponent implements OnInit {
   }
   filterEventsByDateAndMachine(
     month: string,
-    year: string,
-    machineName: string
+    year: string
   ): Observable<EventData[]> {  // Return type changed to Observable
 
     if (this.chart) {
@@ -166,14 +157,40 @@ export class BarChartComponent implements OnInit {
 
           return (
             eventMonth === this.getMonthFromString(month) &&
-            eventYear === parseInt(year, 10) &&
-            event.machine_name === machineName
+            eventYear === parseInt(year, 10)
           );
         });
       }),
       tap(filteredData => {
-        this.createChart(filteredData);
+        let averageTemperatureOverTime = this.calculateAverageTemperatureOverTime(filteredData);
+        this.createChart(averageTemperatureOverTime);
       })
     );
   }
+
+
+  calculateAverageTemperatureOverTime(data: EventData[]): { [timestamp: string]: number } {
+    const averageTemperatures: { [timestamp: string]: number } = {};
+    const temperatureSumByTimestamp: { [timestamp: string]: { sum: number; count: number } } = {};
+  
+    data.forEach((event) => {
+      const timestamp = event.timestamp;
+  
+      if (!temperatureSumByTimestamp[timestamp]) {
+        temperatureSumByTimestamp[timestamp] = { sum: 0, count: 0 };
+      }
+  
+      temperatureSumByTimestamp[timestamp].sum += event.temperature;
+      temperatureSumByTimestamp[timestamp].count += 1;
+    });
+  
+    for (const timestamp in temperatureSumByTimestamp) {
+      const averageTemperature =
+        temperatureSumByTimestamp[timestamp].sum / temperatureSumByTimestamp[timestamp].count;
+      averageTemperatures[timestamp] = averageTemperature;
+    }
+  
+    return averageTemperatures;
+  }
+  
 }
