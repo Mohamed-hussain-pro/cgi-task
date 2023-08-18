@@ -20,7 +20,6 @@ export class BarChartComponent implements OnInit {
   public years: string[] = [];
 
   public machines: string[] = [];
-  public values = ['88', '45', '22', '55', '11'];
 
   public selectedOption: any; // To store the selected option
 

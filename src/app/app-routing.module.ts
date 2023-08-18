@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 import { MeasurementComponent } from './measurement/measurement.component';
 
 const routes: Routes = [
   
   
-  { path: 'dashboard', component: MainDashboardComponent },
+  { path: 'dashboard', component: LineChartComponent },
   { path: 'machines', component: BarChartComponent },
   { path: 'measurement', component: MeasurementComponent }
 ];

@@ -1,1 +1,23 @@
-<p>line-chart works!</p>
+<div class="container">
+
+    <div class="chart-container">
+        <canvas id="MyChart">{{ chart }}</canvas>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <select (change)="onSelectOptionMonth($event)" class="form-select" aria-label="Default select example">
+                <option selected>January</option>
+
+                <option *ngFor="let month of months" value="{{month}}">{{ month }}</option>
+            </select>
+        </div>
+        <div class="col">
+            <select (change)="onSelectOptionYear($event)" class="form-select" aria-label="Default select example">
+                <option selected>2020</option>
+
+                <option *ngFor="let year of years" value="{{year}}">{{ year }}</option>
+            </select>
+        </div>
+    </div>
+</div>
